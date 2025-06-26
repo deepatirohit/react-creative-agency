@@ -27,3 +27,42 @@ export const GeoIcon = (
     />
   </svg>
 );
+
+export const PlayIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="50"
+    height="50"
+    fill="currentColor"
+    className="bi bi-play"
+    viewBox="0 0 16 16"
+  >
+    <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+  </svg>
+);
+
+export const CloseIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="50"
+    height="50"
+    fill="currentColor"
+    class="bi bi-x-lg"
+    viewBox="0 0 16 16"
+  >
+    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+  </svg>
+);
+
+export const PlayIconFill = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    className="bi bi-play-circle-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+  </svg>
+);
