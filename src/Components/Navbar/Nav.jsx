@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import logo_img from "../../assets/images/logo-light.webp";
 
 export const NavBar = () => {
@@ -6,27 +6,43 @@ export const NavBar = () => {
   const [animateItems, setAnimateItems] = useState(false);
   const [renderOverlay, setRenderOverlay] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const menuItems = ["Home", "Portfolio", "Pages", "Blog", "Contact"];
 
+  // Scroll behavior: hide on scroll down, show on scroll up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setShowNavbar(false); // scroll down
+      } else {
+        setShowNavbar(true); // scroll up
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  // Overlay menu animation
   useEffect(() => {
     if (menuOpen) {
-      setRenderOverlay(true); // mount immediately
-      setOverlayVisible(true); // show overlay
-      setTimeout(() => setAnimateItems(true), 100); // animate items in
+      setRenderOverlay(true);
+      setOverlayVisible(true);
+      setTimeout(() => setAnimateItems(true), 100);
     } else {
-      // fade out items first
       setAnimateItems(false);
-
-      // after items are out, hide overlay with animation
       const itemsExitDelay = menuItems.length * 150 + 200;
       const timer1 = setTimeout(() => setOverlayVisible(false), itemsExitDelay);
-
-      // finally remove overlay from DOM
       const timer2 = setTimeout(
         () => setRenderOverlay(false),
         itemsExitDelay + 500
-      ); // matches overlay fade-out
+      );
       return () => {
         clearTimeout(timer1);
         clearTimeout(timer2);
@@ -35,13 +51,16 @@ export const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className=" px-[20rem] py-[2rem] bg-transparent absolute top-0 left-0 w-full z-20">
-      {/* Top bar */}
-      <div className="flex justify-between items-center">
+    <nav
+      className={`fixed top-0 left-0 w-full z-30 transition-transform duration-500 ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      } ${menuOpen ? "bg-black" : "bg-transparent"}`}
+    >
+      <div className="px-[20rem] py-6 flex justify-between items-center">
         {/* Logo */}
         <img src={logo_img} alt="Logo" className="h-8 w-auto" />
 
-        {/* Hamburger / Close Button */}
+        {/* Hamburger / Close */}
         <button className="z-50" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? (
             <span className="text-white text-3xl">&times;</span>
@@ -54,6 +73,7 @@ export const NavBar = () => {
           )}
         </button>
       </div>
+
       {/* Fullscreen Overlay */}
       {renderOverlay && (
         <div
@@ -63,23 +83,20 @@ export const NavBar = () => {
               : "-translate-y-full opacity-0"
           }`}
         >
-          {menuItems.map((item, index) => {
-            const delay = index * 150;
-            return (
-              <a
-                key={item}
-                href="#"
-                className={`text-2xl font-semibold mb-4 transform transition-all duration-500 ease-in-out ${
-                  animateItems
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-6 "
-                }`}
-                style={{ transitionDelay: `${delay}ms` }}
-              >
-                {item}
-              </a>
-            );
-          })}
+          {menuItems.map((item, index) => (
+            <a
+              key={item}
+              href="#"
+              className={`text-2xl font-semibold mb-4 transform transition-all duration-500 ease-in-out ${
+                animateItems
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              {item}
+            </a>
+          ))}
         </div>
       )}
     </nav>

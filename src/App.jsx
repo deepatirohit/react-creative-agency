@@ -1,5 +1,15 @@
+import { FeaturesSection } from "./Components/FeatureSection/FeaturesSection";
+import { HomePage } from "./Components/HomePage/Home";
+import { NavBar } from "./Components/Navbar/Nav";
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <NavBar />
+      <HomePage />
+      <FeaturesSection />
+    </>
+  );
 }
 
 export default App;
