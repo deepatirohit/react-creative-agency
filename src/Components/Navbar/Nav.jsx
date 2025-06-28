@@ -11,17 +11,14 @@ export const NavBar = () => {
 
   const menuItems = ["Home", "Portfolio", "Pages", "Blog", "Contact"];
 
-  // Detect scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Overlay animation logic
   useEffect(() => {
     if (menuOpen) {
       setRenderOverlay(true);
@@ -51,7 +48,7 @@ export const NavBar = () => {
         scrolled || menuOpen ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
-      <div className="flex justify-between items-center px-[18rem] py-6">
+      <div className="flex justify-between items-center px-6 sm:px-16 lg:px-[18rem] py-6 w-full">
         {/* Logo */}
         <img src={logoSrc} alt="Logo" className="h-8 w-auto" />
 
